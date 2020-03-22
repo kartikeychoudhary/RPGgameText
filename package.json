@@ -1,0 +1,16 @@
+{
+  "name": "game",
+  "version": "1.0.0",
+  "description": "a text based game",
+  "main": "index.js",
+  "scripts": {
+    "bundle-js": "browserify lib/script.js > static/script.js",
+    "build-js": "babel src -d lib --source-maps",
+    "build": "npm run build-js && npm run bundle-js"
+  },
+  "keywords": [
+    "ecmajs"
+  ],
+  "author": "kartikey choudhary",
+  "license": "ISC"
+}

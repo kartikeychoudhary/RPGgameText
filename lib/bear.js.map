@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/bear.js"],"names":["Bear"],"mappings":";;;;;;;;;;IAAaA,I,WAAAA,I;;;;;;;wCACO;AAAC,mBAAO,uCAAP;AAAgD","file":"bear.js","sourcesContent":["export class Bear {\n    whenEncounter() {return \"grr grow, You encountered a Bear. !!!\";}\n}"]}

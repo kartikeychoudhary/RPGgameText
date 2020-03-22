@@ -1,0 +1,23 @@
+body{
+    margin: 0;
+}
+
+#output{
+    padding: 5px;
+    margin-top: 0px;
+    width:51%;
+    background-color: black;
+    color: white;
+    height: 400px;
+}
+
+#commands{
+    margin-top:5px;
+    padding: 5px;
+    width: 40%;
+}
+#enter{
+    margin-top:5px;
+    padding: 5px;
+    width: 10%;
+}

@@ -11,8 +11,7 @@ var tresCoords = new Set();
 var x=0, y=0;
 
 function navigate(stepX, stepY){
-    x+=stepX;
-    y+=stepY;
+    [x, y] = [x+stepX, y+stepY];
 
     let coordiates= document.querySelector("#coordinates");
     coordiates.innerHTML = `${x}, ${y}`;
@@ -29,9 +28,9 @@ function findTreasure(){
     }
 
     if(findCoords){
-        var value = treasures.get(findCoords);
+        var {name, value} = treasures.get(findCoords);
         if(value){
-            addToOutput("You Found " + value.name);
+            addToOutput(`You found a ${name} value (${value})`);
         }
     }
 }

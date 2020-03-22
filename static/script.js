@@ -4,6 +4,14 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.options = exports.INPUT_OPTIONS = exports.print = undefined;
+
+var _options;
+
+var _script = require("./script");
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var print = exports.print = function print() {
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
@@ -35,20 +43,18 @@ var print = exports.print = function print() {
 
     console.log(string);
 };
+var INPUT_OPTIONS = exports.INPUT_OPTIONS = Symbol("input_options");
+var options = exports.options = (_options = {
+    _intro: "You can Type"
+}, _defineProperty(_options, INPUT_OPTIONS, ["left", "right", "up", "down", "help"]), _defineProperty(_options, "outputOptions", function outputOptions() {
+    var _this = this;
 
-var options = exports.options = {
-    _intro: "You can Type",
-    _options: ["left", "right", "up", "down", "help"],
-    outputOptions: function outputOptions() {
-        var _this = this;
+    this[INPUT_OPTIONS].forEach(function (f) {
+        return (0, _script.addToOutput)(_this._intro + " " + f);
+    });
+}), _options);
 
-        this._options.forEach(function (f) {
-            return addToOutput(_this._intro + " " + f);
-        });
-    }
-};
-
-},{}],2:[function(require,module,exports){
+},{"./script":4}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -175,6 +181,11 @@ var Environment = exports.Environment = function () {
 },{"./encounter":2}],4:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.addToOutput = addToOutput;
+
 var _environment = require("./environment");
 
 var _additional = require("./additional");
@@ -256,6 +267,7 @@ function main() {
     treasures.set(coordinate2, { name: "medaillon", value: 10 });
 }
 main();
+console.log(Object.getOwnPropertySymbols(_additional.options));
 
 function addToOutput() {
     var newLine = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultLine;

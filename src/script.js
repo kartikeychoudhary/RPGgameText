@@ -51,8 +51,9 @@ function main(){
 
 }
 main();
+console.log(Object.getOwnPropertySymbols(options));
 
-function addToOutput(newLine=defaultLine){
+export function addToOutput(newLine=defaultLine){
  let ouput =document.querySelector("#output");
  ouput.innerHTML += BR + newLine;
  print(newLine);

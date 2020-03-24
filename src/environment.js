@@ -6,5 +6,16 @@ export class Environment{
         this.encounter = encounter.generator();
     }
 
-    stumbleUpon(){return `${this.name} ${this.encounter.whenEncounter()}`;} 
+    stumbleUpon(){
+        this.encounter=encounter.generator();
+        this.pokeEncountered=this.encounter.poke();
+        
+        return `${this.name} ${this.encounter.whenEncounter()}`;} 
+
+    poke(){
+        var pokeReturn = this.pokeEncountered.next();
+        if(!pokeReturn.done){
+            return pokeReturn.value;
+        }
+    }
 }

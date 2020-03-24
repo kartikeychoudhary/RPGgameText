@@ -7,6 +7,7 @@ const defaultLine = "+ Start your Journey now !!!"
 var environment = new Environment("Forest - ");
 var treasures = new WeakMap();
 var tresCoords = new Set();
+var _fileInput;
 
 var x=0, y=0;
 
@@ -35,6 +36,26 @@ function findTreasure(){
     }
 }
 
+function _onFilesSelected(){
+    var file = _fileInput.files[0];
+    var reader = new FileReader();
+
+
+    return new Promise((resolve, reject)=>{
+
+        reader.onload = function(event){
+            if(event.target.readyState == FileReader.DONE){
+                resolve(JSON.parse(event.target.result));
+            }
+        }
+        if(file){
+            reader.readAsText(file, "UTF-8");
+        }
+
+    });
+    
+}
+
 function main(){
     let enterEl = document.querySelector("#enter");
 
@@ -48,6 +69,18 @@ function main(){
     var coordinate2 = {x:2, y:0};
     tresCoords.add(coordinate2);
     treasures.set(coordinate2,{name:"medaillon",value:10});
+
+    _fileInput = document.querySelector("#file");
+    _fileInput.onchange = function(){
+        _onFilesSelected().then(function(results){
+            for(var result of results){
+            tresCoords.add(result.coordinates);
+            treasures.set(result.coordinates, result.treasure);
+            }  
+        }).catch(function(error){
+            print("file", error);
+        });
+    };
 
 }
 main();
@@ -76,6 +109,8 @@ function onclickEnter(){
     }else if(commands.value == "down"){
         navigate(0, -1);
         addToOutput(environment.stumbleUpon());
+    }else if(commands.value == "poke"){
+        addToOutput(environment.poke());
     }
     else{
         addToOutput(commands.value);

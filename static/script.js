@@ -367,21 +367,33 @@ function findTreasure() {
     }
 }
 
-function _onFilesSelected() {
-    var file = _fileInput.files[0];
+function pFileReader(file) {
     var reader = new FileReader();
-
     return new Promise(function (resolve, reject) {
-
         reader.onload = function (event) {
             if (event.target.readyState == FileReader.DONE) {
                 resolve(JSON.parse(event.target.result));
             }
         };
+
         if (file) {
             reader.readAsText(file, "UTF-8");
         }
     });
+}
+
+function _onFilesSelected() {
+    var promise = Promise.resolve();
+    var arr_promises = [];
+    for (var i = 0; i < _fileInput.files.length; i++) {
+        var file = _fileInput.files[i];
+        arr_promises.push(pFileReader(file));
+    }
+
+    return Promise.all(arr_promises);
+    // ? _fileInput.files.forEach(file => promise=promise.then(()=> pFileReader(file)));
+    // ? promise.then(()=> console.log("All Done"));
+
 }
 
 function main() {
@@ -400,17 +412,41 @@ function main() {
 
     _fileInput = document.querySelector("#file");
     _fileInput.onchange = function () {
-        _onFilesSelected().then(function (results) {
+        _onFilesSelected().then(function (processed_arr) {
             var _iteratorNormalCompletion2 = true;
             var _didIteratorError2 = false;
             var _iteratorError2 = undefined;
 
             try {
-                for (var _iterator2 = results[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                    var result = _step2.value;
+                for (var _iterator2 = processed_arr[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                    var results = _step2.value;
 
-                    tresCoords.add(result.coordinates);
-                    treasures.set(result.coordinates, result.treasure);
+                    (0, _additional.print)("file", results);
+                    var _iteratorNormalCompletion3 = true;
+                    var _didIteratorError3 = false;
+                    var _iteratorError3 = undefined;
+
+                    try {
+                        for (var _iterator3 = results[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                            var result = _step3.value;
+
+                            tresCoords.add(result.coordinates);
+                            treasures.set(result.coordinates, result.treasure);
+                        }
+                    } catch (err) {
+                        _didIteratorError3 = true;
+                        _iteratorError3 = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                                _iterator3.return();
+                            }
+                        } finally {
+                            if (_didIteratorError3) {
+                                throw _iteratorError3;
+                            }
+                        }
+                    }
                 }
             } catch (err) {
                 _didIteratorError2 = true;

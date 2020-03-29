@@ -12,5 +12,8 @@
     "ecmajs"
   ],
   "author": "kartikey choudhary",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.24.1"
+  }
 }

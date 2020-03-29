@@ -1,5 +1,7 @@
 import {Environment} from "./environment";
 import {options, print} from "./additional";
+import {onChange} from "./fileprocessing";
+
 
 const BR = "<br>";
 const defaultLine = "+ Start your Journey now !!!"
@@ -36,36 +38,6 @@ function findTreasure(){
     }
 }
 
-function pFileReader(file){
-    var reader = new FileReader();
-    return new Promise((resolve, reject)=> {
-        reader.onload = function(event){
-            if(event.target.readyState == FileReader.DONE){
-                resolve(JSON.parse(event.target.result));
-            }
-        };
-
-        if(file){
-            reader.readAsText(file, "UTF-8");
-        }
-    });
-}
-
-function _onFilesSelected(){
-    var promise = Promise.resolve();
-    var arr_promises = [];
-    for(var i=0; i<_fileInput.files.length;i++){
-        var file = _fileInput.files[i];
-        arr_promises.push(pFileReader(file));
-    }
-
-    return Promise.all(arr_promises);
-    // ? _fileInput.files.forEach(file => promise=promise.then(()=> pFileReader(file)));
-    // ? promise.then(()=> console.log("All Done"));
-    
-    
-}
-
 function main(){
     let enterEl = document.querySelector("#enter");
 
@@ -82,17 +54,7 @@ function main(){
 
     _fileInput = document.querySelector("#file");
     _fileInput.onchange = function(){
-        _onFilesSelected().then(function(processed_arr){
-            for(var results of processed_arr){
-                print("file", results);
-            for(var result of results){
-                tresCoords.add(result.coordinates);
-                treasures.set(result.coordinates, result.treasure);
-                }  
-            }
-        }).catch(function(error){
-            print("file", error);
-        });
+        onChange(_fileInput.files, tresCoords, treasures);
     };
 
 }
